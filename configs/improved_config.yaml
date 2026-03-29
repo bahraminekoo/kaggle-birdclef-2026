@@ -1,0 +1,63 @@
+# Improved Configuration for BirdCLEF 2026 (Phase 1)
+
+# Paths (adjust for your environment)
+paths:
+  data_dir: /kaggle/input/birdclef-2026
+  output_dir: /kaggle/working
+  model_dir: /kaggle/input/birdclef-2026-trained-models
+
+# Audio Processing
+audio:
+  sample_rate: 32000
+  duration: 5  # seconds
+  n_mels: 224  # Increased for better frequency resolution
+  fmin: 20
+  fmax: 16000
+  n_fft: 2048
+  hop_length: 512
+
+# Model Architecture
+model:
+  name: efficientnet_b1  # Upgraded from B0
+  pretrained: true
+  num_classes: 234
+  dropout: 0.3
+
+# Training Parameters
+training:
+  n_folds: 5
+  train_folds: [0, 1, 2, 3]
+  seed: 42
+  epochs: 20  # Increased from 10
+  batch_size: 24  # Reduced due to larger model
+  lr: 0.0005  # Reduced from 0.001
+  weight_decay: 0.000001
+  num_workers: 2
+  device: cuda
+  
+  # Data sources
+  use_train_soundscapes: true  # NEW: Use labeled soundscapes
+  
+  # Augmentation
+  use_augmentation: true
+  use_spec_augment: true  # NEW: SpecAugment
+  freq_mask_param: 15
+  time_mask_param: 30
+  use_mixup: true  # NEW: Mixup
+  mixup_alpha: 0.3
+  
+  # Checkpoint
+  save_checkpoint_every_epoch: true
+  auto_resume: true
+  
+  # Learning rate schedule
+  use_warmup: true
+  warmup_epochs: 2
+
+# Inference Parameters
+inference:
+  batch_size: 16
+  num_workers: 0
+  device: cpu
+  model_folds: [0, 1, 2, 3]
+  use_tta: true  # NEW: Test-Time Augmentation

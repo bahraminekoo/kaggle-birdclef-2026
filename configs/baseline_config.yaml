@@ -1,0 +1,50 @@
+# Baseline Configuration for BirdCLEF 2026
+
+# Paths (adjust for your environment)
+paths:
+  data_dir: /kaggle/input/birdclef-2026
+  output_dir: /kaggle/working
+  model_dir: /kaggle/input/birdclef-2026-trained-models
+
+# Audio Processing
+audio:
+  sample_rate: 32000
+  duration: 5  # seconds
+  n_mels: 128
+  fmin: 20
+  fmax: 16000
+  n_fft: 2048
+  hop_length: 512
+
+# Model Architecture
+model:
+  name: efficientnet_b0
+  pretrained: true
+  num_classes: 234
+  dropout: 0.3
+
+# Training Parameters
+training:
+  n_folds: 5
+  train_folds: [0, 1, 2, 3]
+  seed: 42
+  epochs: 10
+  batch_size: 32
+  lr: 0.001
+  weight_decay: 0.000001
+  num_workers: 2
+  device: cuda
+  
+  # Augmentation
+  use_augmentation: true
+  
+  # Checkpoint
+  save_checkpoint_every_epoch: true
+  auto_resume: true
+
+# Inference Parameters
+inference:
+  batch_size: 16
+  num_workers: 0
+  device: cpu
+  model_folds: [0, 1, 2, 3]

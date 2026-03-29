@@ -1,0 +1,105 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# PyCharm
+.idea/
+
+# VSCode
+.vscode/
+
+# Windsurf
+.windsurf/
+
+# Data files
+data/raw/
+data/processed/
+data/external/
+*.csv
+!requirements.txt
+!docs/*.csv
+
+# Model files
+models/*
+!models/README.md
+*.pth
+*.pt
+*.h5
+*.pkl
+*.pickle
+
+# Outputs
+outputs/
+checkpoints/
+logs/
+submissions/
+*.log
+
+# Kaggle specific
+/kaggle/
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Audio files (too large)
+*.wav
+*.mp3
+*.ogg
+*.flac
+*.m4a
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Documentation builds
+docs/_build/
