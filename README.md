@@ -60,8 +60,8 @@ BirdClef2026/
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/BirdClef2026.git
-cd BirdClef2026
+git clone https://github.com/bahraminekoo/kaggle-birdclef-2026.git
+cd kaggle-birdclef-2026
 
 # Install dependencies
 pip install -r requirements.txt

@@ -2,7 +2,7 @@
 
 # Paths (adjust for your environment)
 paths:
-  data_dir: /kaggle/input/birdclef-2026
+  data_dir: /kaggle/input/competitions/birdclef-2026
   output_dir: /kaggle/working
   model_dir: /kaggle/input/birdclef-2026-trained-models
 
