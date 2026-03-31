@@ -26,9 +26,9 @@ BirdClef2026/
 ├── .gitignore                   # Git ignore rules
 │
 ├── notebooks/                   # Jupyter notebooks
-│   ├── 01_baseline_training.ipynb
 │   ├── 02_baseline_inference.ipynb
-│   └── 03_training_with_checkpoints.ipynb
+│   ├── 03_training_with_checkpoints.ipynb
+│   └── 04_phase1_improved_training.ipynb
 │
 ├── src/                         # Source code modules
 │   ├── __init__.py
@@ -43,6 +43,7 @@ BirdClef2026/
 ├── docs/                        # Documentation
 │   ├── CHECKPOINT_GUIDE.md     # Checkpoint system guide
 │   ├── IMPROVEMENT_PLAN.md     # Score improvement roadmap
+│   ├── PHASE1_IMPLEMENTATION.md # Phase 1 implementation guide
 │   ├── COMPETITION_OVERVIEW.md # Competition details
 │   └── RESULTS.md              # Experiment tracking
 │
@@ -92,10 +93,16 @@ unzip birdclef-2026.zip -d data/raw/
 
 **Option 1: Using Notebooks (Recommended for Kaggle)**
 
+**Baseline Model:**
 1. Open `notebooks/03_training_with_checkpoints.ipynb`
 2. Update paths in configuration
 3. Run all cells
 4. Models will be saved to `outputs/`
+
+**Phase 1 Improved Model:**
+1. Open `notebooks/04_phase1_improved_training.ipynb`
+2. Run all cells (includes all Phase 1 improvements)
+3. Models will be saved to `outputs/`
 
 **Option 2: Using Python Scripts (Coming Soon)**
 
@@ -132,12 +139,49 @@ Sigmoid Activation
 Multi-label Predictions
 ```
 
+### Phase 1 Improved Model
+
+```
+Audio (32kHz, 5s) - train_audio + train_soundscapes
+    ↓
+Audio Augmentation (Noise, TimeStretch, PitchShift, Shift)
+    ↓
+Mel-Spectrogram (224 x 313) - Higher resolution
+    ↓
+SpecAugment (Frequency & Time Masking)
+    ↓
+tf_efficientnet_b0_ns Backbone - Better pretrained weights
+    ↓
+Global Average Pooling
+    ↓
+Dropout (0.3)
+    ↓
+Linear Layer (234 classes)
+    ↓
+Mixup Augmentation (alpha=0.3)
+    ↓
+Sigmoid Activation
+    ↓
+Multi-label Predictions
+```
+
 ### Audio Processing
 
+**Baseline:**
 - **Sample Rate:** 32,000 Hz
 - **Duration:** 5 seconds
 - **Mel-Spectrogram:**
   - n_mels: 128
+  - fmin: 20 Hz
+  - fmax: 16,000 Hz
+  - n_fft: 2048
+  - hop_length: 512
+
+**Phase 1 Improved:**
+- **Sample Rate:** 32,000 Hz
+- **Duration:** 5 seconds
+- **Mel-Spectrogram:**
+  - n_mels: **224** (increased from 128)
   - fmin: 20 Hz
   - fmax: 16,000 Hz
   - n_fft: 2048
@@ -151,6 +195,10 @@ Multi-label Predictions
 - Pitch Shift (±2 semitones, p=0.5)
 - Time Shift (±0.5s, p=0.5)
 
+**Phase 1 Additional Augmentation:**
+- **SpecAugment:** Frequency masking (15 bins) + Time masking (30 frames)
+- **Mixup:** Sample mixing with alpha=0.3
+
 ## 📊 Results
 
 ### Baseline Performance
@@ -158,22 +206,31 @@ Multi-label Predictions
 | Metric | Score |
 |--------|-------|
 | Local CV | ~0.65-0.75 |
-| Public LB | 0.80 |
-| Rank | 1037/1480 |
+| Public LB | 0.802 |
+| Rank | 1077/1529 |
+
+### Phase 1 Implementation Status
+
+**✅ Completed Improvements:**
+- ✅ Train soundscapes data integration (critical domain matching)
+- ✅ SpecAugment (frequency & time masking)
+- ✅ Mixup augmentation (alpha=0.3)
+- ✅ Better pretrained model (tf_efficientnet_b0_ns)
+- ✅ Higher resolution spectrograms (n_mels=224)
+- ✅ Extended training (20 epochs)
+- ✅ Optimized learning rate (5e-4 with warmup)
+
+**Expected Impact:** +0.03-0.05 improvement (0.80 → 0.83-0.85)
+
+**Status:** Training in progress
 
 ### Improvement Roadmap
 
-See [`docs/IMPROVEMENT_PLAN.md`](docs/IMPROVEMENT_PLAN.md) for detailed improvement strategy.
-
-**Phase 1 (Quick Wins):** +0.03-0.05 improvement
-- Add train_soundscapes data
-- Implement SpecAugment
-- Increase training epochs
-- Optimize learning rate
+See [`docs/IMPROVEMENT_PLAN.md`](docs/IMPROVEMENT_PLAN.md) and [`docs/PHASE1_IMPLEMENTATION.md`](docs/PHASE1_IMPLEMENTATION.md) for detailed strategy.
 
 **Phase 2 (Model Improvements):** +0.03-0.05 improvement
 - Upgrade to larger model (EfficientNet-B1/B2)
-- Implement Mixup
+- Multi-scale features
 - Better feature engineering
 - Test-Time Augmentation
 
