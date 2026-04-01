@@ -12,7 +12,7 @@ A machine learning framework for identifying wildlife species from audio recordi
 
 **Evaluation:** Macro-averaged ROC-AUC (skipping classes with no true positives)
 
-**Current Score:** 0.802 (Public LB) - Rank 1077/1529
+**Current Score:** 0.838 (Public LB) - Rank 1023/1604
 
 **Target:** 0.90+ (Top 15-20%)
 
