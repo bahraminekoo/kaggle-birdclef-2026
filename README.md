@@ -12,7 +12,7 @@ A machine learning framework for identifying wildlife species from audio recordi
 
 **Evaluation:** Macro-averaged ROC-AUC (skipping classes with no true positives)
 
-**Current Score:** 0.838 (Public LB) - Rank 1023/1604
+**Current Score:** 0.857 (Public LB) - Rank 1123/1854
 
 **Target:** 0.90+ (Top 15-20%)
 
@@ -222,13 +222,17 @@ Multi-label Predictions
 
 **Actual Results:**
 
-| Metric | Baseline | Phase 1 | Improvement |
-|--------|----------|---------|-------------|
-| Local CV (Fold 0) | 0.65-0.75 | **0.94** | +0.19-0.29 |
-| Public LB | 0.802 | **0.838** | **+0.036** |
-| Rank | 1077/1529 | 1023/1604 | +54 positions |
+| Metric | Baseline | Phase 1 (Partial) | Phase 1 (Latest) | Improvement |
+|--------|----------|-------------------|------------------|-------------|
+| Local CV (Fold 0) | 0.65-0.75 | **0.94** | **0.94** | +0.19-0.29 |
+| Public LB | 0.802 | 0.838 | **0.857** | **+0.055** |
+| Rank | 1077/1529 | 1023/1604 | **1123/1854** | Improving |
 
-**Status:** Fold 0 complete (8/12 epochs), continuing with Folds 1-2
+**Current Status:** 
+- ✅ Fold 0 complete (12/12 epochs, CV: 0.94)
+- 🔄 Fold 1 in progress (4/12 epochs)
+- ⏳ Fold 2 pending
+- **Latest submission:** 2-fold partial ensemble (Fold 0 + Fold 1 @ 4 epochs) → **0.857 LB** 🎉
 
 **Training Timeline (30 hrs/week GPU):**
 - Week 1: Fold 0 + Fold 1 partial
